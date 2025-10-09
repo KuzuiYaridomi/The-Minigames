@@ -1,0 +1,47 @@
+[gd_scene load_steps=12 format=3 uid="uid://dt4hh0ft1nq5o"]
+
+[ext_resource type="ArrayMesh" uid="uid://dmxefl167i4y6" path="res://assets/props/StageLight-11-OBJ/StageLight_11_obj.obj" id="1_r27h4"]
+[ext_resource type="Texture2D" uid="uid://biecgctgq24u1" path="res://assets/props/StageLight-11-OBJ/tex/glass_01_displace.jpg" id="2_sn4xc"]
+[ext_resource type="Texture2D" uid="uid://b24b31nyd2l2y" path="res://assets/props/StageLight-11-OBJ/tex/cloth_11.jpg" id="3_jven5"]
+[ext_resource type="Texture2D" uid="uid://cgfts01qs2s6r" path="res://assets/props/StageLight-11-OBJ/tex/01.png" id="4_u7xtn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6blgm"]
+albedo_texture = ExtResource("2_sn4xc")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ix4ga"]
+albedo_texture = ExtResource("3_jven5")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n4eug"]
+albedo_texture = ExtResource("3_jven5")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qcjsj"]
+albedo_texture = ExtResource("3_jven5")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_66amd"]
+albedo_texture = ExtResource("3_jven5")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1vdbq"]
+albedo_texture = ExtResource("2_sn4xc")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vtiq8"]
+albedo_texture = ExtResource("4_u7xtn")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+mesh = ExtResource("1_r27h4")
+surface_material_override/0 = SubResource("StandardMaterial3D_6blgm")
+surface_material_override/1 = SubResource("StandardMaterial3D_ix4ga")
+surface_material_override/2 = SubResource("StandardMaterial3D_n4eug")
+surface_material_override/3 = SubResource("StandardMaterial3D_qcjsj")
+surface_material_override/4 = SubResource("StandardMaterial3D_66amd")
+surface_material_override/5 = SubResource("StandardMaterial3D_1vdbq")
+surface_material_override/6 = SubResource("StandardMaterial3D_vtiq8")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="MeshInstance3D"]
+transform = Transform3D(-10, 0, 8.7422785e-07, 0, 10, 0, -8.7422785e-07, 0, -10, -0.0012481213, 10.155076, -16.8573)
+light_color = Color(0.49327892, 0.9986755, 0.9999998, 1)
+light_energy = 16.0
+light_indirect_energy = 6.025
+light_size = 0.537

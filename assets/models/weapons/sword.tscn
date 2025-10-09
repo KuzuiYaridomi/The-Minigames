@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://lqla6if1xuo4"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tym66"]
+
+[node name="Sword" type="MeshInstance3D"]
+mesh = SubResource("CylinderMesh_tym66")

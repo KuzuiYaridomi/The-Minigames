@@ -1,0 +1,57 @@
+[gd_scene load_steps=10 format=3 uid="uid://8t6so1rjofsd"]
+
+[ext_resource type="PackedScene" uid="uid://dx8goh62wi3wj" path="res://assets/models/weapons/gun.glb" id="1_xu07m"]
+[ext_resource type="Script" uid="uid://b3fy2fou7p3n3" path="res://scripts/items/gun.gd" id="2_o7idd"]
+[ext_resource type="PackedScene" uid="uid://1bnjwrlofxuk" path="res://scenes/items/oldbullet.tscn" id="3_o7idd"]
+[ext_resource type="Texture2D" uid="uid://bj6p7uhs3jr5v" path="res://assets/props/muzzleflash.png" id="4_efh1a"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xu07m"]
+albedo_color = Color(0, 0.49411765, 0.47058824, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o7idd"]
+albedo_color = Color(0, 0.49411765, 0.47058824, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_efh1a"]
+albedo_color = Color(0, 0.49411765, 0.47058824, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_g0jpk"]
+flip_faces = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0fsjw"]
+transparency = 1
+albedo_texture = ExtResource("4_efh1a")
+emission_enabled = true
+emission_energy_multiplier = 3.0
+emission_texture = ExtResource("4_efh1a")
+
+[node name="gun" instance=ExtResource("1_xu07m")]
+script = ExtResource("2_o7idd")
+fire_rate = 0.3
+muzzle_path = NodePath("Node/gun/tube/Muzzle")
+bullet_scene = ExtResource("3_o7idd")
+recoil_recover_speed = 3.0
+
+[node name="gun" parent="Node" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, -2.4492937e-16, 0, 2.4492937e-16, 1, 0.13444011, 0.5869227, -0.012023542)
+
+[node name="cube" parent="Node/gun" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_xu07m")
+
+[node name="cube2" parent="Node/gun" index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_o7idd")
+
+[node name="cube3" parent="Node/gun" index="2"]
+surface_material_override/0 = SubResource("StandardMaterial3D_efh1a")
+
+[node name="Muzzle" type="Node3D" parent="Node/gun/tube" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.011465989, 0)
+
+[node name="Marker3D" type="Marker3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7645651, 0)
+
+[node name="MuzzleFlash" type="MeshInstance3D" parent="." index="3"]
+transform = Transform3D(0.032528486, 0, 0, 0, 0.027373902, 0.034278486, 0, -0.9924123, 0.00094551005, 0.13728467, 0.6058749, -0.05466667)
+visible = false
+mesh = SubResource("PlaneMesh_g0jpk")
+skeleton = NodePath("../Node")
+surface_material_override/0 = SubResource("StandardMaterial3D_0fsjw")

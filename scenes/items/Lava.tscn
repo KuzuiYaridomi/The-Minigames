@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcef3w0jly1sy"]
+
+[ext_resource type="Texture2D" uid="uid://bqqsjv0mik2m6" path="res://assets/textures/environment/lava.jpg" id="1_ojtmx"]
+[ext_resource type="Script" uid="uid://qyklkrynaa6f" path="res://scripts/Lava.gd" id="1_u0250"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pvmnw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_idv18"]
+albedo_texture = ExtResource("1_ojtmx")
+emission_enabled = true
+emission_energy_multiplier = 1.7
+emission_texture = ExtResource("1_ojtmx")
+uv1_scale = Vector3(1, 0.4, 1)
+
+[node name="Lava" type="Area3D"]
+script = ExtResource("1_u0250")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5715332, 0, 1.9978638)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(11.791391, 0, 0, 0, 1, 0, 0, 0, 7.8088064, -2.572, 0, 1.998)
+mesh = SubResource("PlaneMesh_pvmnw")
+surface_material_override/0 = SubResource("StandardMaterial3D_idv18")

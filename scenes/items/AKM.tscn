@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://561c7gjesvl1"]
+
+[ext_resource type="PackedScene" uid="uid://i8hvnddb40w6" path="res://assets/models/weapons/AKM.glb" id="1_g6brf"]
+
+[node name="Root Scene" instance=ExtResource("1_g6brf")]

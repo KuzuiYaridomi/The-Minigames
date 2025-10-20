@@ -1,26 +1,75 @@
-[gd_scene load_steps=4 format=3 uid="uid://bkmegwgypyh2q"]
+[gd_scene load_steps=8 format=3 uid="uid://bkmegwgypyh2q"]
 
 [ext_resource type="Script" uid="uid://cn7ief2jxc1np" path="res://scripts/player/player.gd" id="1_wr5hl"]
+[ext_resource type="PackedScene" uid="uid://8t6so1rjofsd" path="res://scenes/items/oldgun.tscn" id="2_gfjak"]
+[ext_resource type="PackedScene" uid="uid://b7cci7v7rss6m" path="res://scenes/ui/HUD.tscn" id="3_4kuee"]
+[ext_resource type="Script" uid="uid://cyesw3snoknyq" path="res://scripts/Health.gd" id="4_524rm"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o8nba"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_524rm"]
+radius = 0.5341797
+height = 2.317871
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_wr5hl"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_524rm"]
+bg_color = Color(0.7607843, 0.08627451, 0.14117648, 1)
 
-[node name="Player" type="CharacterBody3D"]
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_524rm"]
+
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+transform = Transform3D(0.9999998, 0, 0, 0, 1, 0, 0, 0, 0.9999998, 0, 0.31311417, 0)
 floor_snap_length = 0.5
 script = ExtResource("1_wr5hl")
+slide_start_boost = 0.8
+slidehop_cooldown = 0.2
+jump_velocity = 7.0
+acceleration = 14.0
+gravity = 17.0
+slide_duration = 0.2
+slide_boost = 1.3
+player_controls_node_path = NodePath(".")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51995826, 0)
-shape = SubResource("CapsuleShape3D_o8nba")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52023137, 0)
-mesh = SubResource("CapsuleMesh_wr5hl")
+transform = Transform3D(1, 0, 0, 0, 1.5, 0, 0, 0, 1, -0.020295132, 0.85411406, 0.061871983)
+shape = SubResource("CapsuleShape3D_524rm")
 
 [node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0.06928444, 0.60706294, 0.39895672)
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8493191, 0.0741992)
+transform = Transform3D(1, 0, 7.4505793e-09, 0, 1, 0, -7.4505793e-09, 0, 1, 0.06930871, 1.1070865, -0.32966387)
+
+[node name="GunHolder" type="Node3D" parent="CameraPivot/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, -0.2, -0.5)
+
+[node name="gun" parent="CameraPivot/Camera3D/GunHolder" instance=ExtResource("2_gfjak")]
+transform = Transform3D(1.2604975, 0, 0, 0, 1, 0, 0, 0, 1, -0.45505953, -0.5921969, 0.14221436)
+
+[node name="RayOrigin" type="Marker3D" parent="CameraPivot/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.021, -0.127, -0.6)
 
 [node name="Node3D" type="Node3D" parent="."]
+
+[node name="HUD" parent="." instance=ExtResource("3_4kuee")]
+
+[node name="Health" type="Node3D" parent="."]
+script = ExtResource("4_524rm")
+owner_kill_delay = 0.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer"]
+custom_minimum_size = Vector2(250, 30)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -269.0
+offset_top = 18.0
+offset_right = -19.0
+offset_bottom = 48.0
+grow_horizontal = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_524rm")
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.99999994, 0, 0, 0, 1.5, 0, 0, 0, 0.99999994, 0, 1.0523276, 0.06303202)
+mesh = SubResource("CapsuleMesh_524rm")

@@ -40,8 +40,9 @@ surface_material_override/5 = SubResource("StandardMaterial3D_1vdbq")
 surface_material_override/6 = SubResource("StandardMaterial3D_vtiq8")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="MeshInstance3D"]
-transform = Transform3D(-10, 0, 8.7422785e-07, 0, 10, 0, -8.7422785e-07, 0, -10, -0.0012481213, 10.155076, -16.8573)
+transform = Transform3D(-10, 0, 8.7422785e-07, 0, 10, 0, -8.7422785e-07, 0, -10, -0.0012481213, 10.155076, 0.004786253)
 light_color = Color(0.49327892, 0.9986755, 0.9999998, 1)
 light_energy = 16.0
-light_indirect_energy = 6.025
-light_size = 0.537
+light_indirect_energy = 15.678
+light_volumetric_fog_energy = 2.19
+light_size = 1.0

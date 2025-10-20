@@ -5,6 +5,8 @@ extends CharacterBody3D
 @export var mouse_smooth_speed: float = 12.0  # unused for direct look but kept
 var pitch := 0.0
 
+# health hud stuff
+
 
 
 #momentum switch up
@@ -73,11 +75,132 @@ var can_wall_jump := false
 var _speed_print_timer: float = 0.0
 @export var speed_print_interval: float = 0.2  # seconds
 
+#Health stuff first
+# Health + UI (automatic lookup)
+@export var max_health: int = 3
+var health: int
+var spawn_position: Vector3
+
+# UI cached nodes (filled in _ready)
+var _healthbar = null
+var _deathpopup = null
+
+
+# UI NodePaths (set in Inspector to your UI nodes)
+@export var healthbar_path: NodePath
+@export var deathpopup_path: NodePath
+@export var player_controls_node_path: NodePath  # optional: node to disable when dead
+
+@onready var healthbar = get_node_or_null(healthbar_path)
+@onready var deathpopup = get_node_or_null(deathpopup_path)
+@onready var controls_node = get_node_or_null(player_controls_node_path)
+
+
+func take_damage(amount: int = 1) -> void:
+	health = max(0, health - amount)
+	_update_health_ui()
+	if health <= 0:
+		_die()
+
+func _update_health_ui() -> void:
+	if healthbar:
+		# if using TextureProgress, set max/min appropriately in Inspector
+		# If the control is a Range (ProgressBar/TextureProgress) set its max
+		if healthbar is Range:
+			healthbar.max_value = max_health
+			healthbar.min_value = 0
+		healthbar.value = health
+
+func _die() -> void:
+	# disable player controls (if any) by disabling a specific node if provided
+	if controls_node:
+		controls_node.set_process(false)
+		controls_node.set_physics_process(false)
+	# show death popup UI
+	if deathpopup:
+		deathpopup.visible = true
+		# optionally pause the game logic (but we want UI still interactive)
+		# get_tree().paused = true
+
+func respawn() -> void:
+	# hide popup
+	if deathpopup:
+		deathpopup.visible = false
+	# move player to spawn position
+	var t = global_transform
+	t.origin = spawn_position
+	global_transform = t
+	# reset health
+	health = max_health
+	_update_health_ui()
+	# re-enable controls
+	if controls_node:
+		controls_node.set_process(true)
+		controls_node.set_physics_process(true)
+	# unpause if you paused
+	# get_tree().paused = false
+
 # ───────────── CAMERA LOOK ─────────────
 func _ready():
+		# register as player group (so enemies/bullets detect)
+	add_to_group("player")
+	health = max_health
+	spawn_position = global_transform.origin
+
+	# ----------------- START: HUD auto-find fallback (ADDED) -----------------
+	# If inspector paths weren't set, try to find UI nodes automatically in current scene.
+	if healthbar == null:
+		var root = get_tree().get_current_scene()
+		if root:
+			# try common places: UI -> HealthBar
+			var ui = root.get_node_or_null("UI")
+			if ui == null:
+				# fallback: find any CanvasLayer and look inside
+				for c in root.get_children():
+					if c is CanvasLayer:
+						ui = c
+						break
+			if ui:
+				# try named children inside UI
+				var hb = ui.get_node_or_null("HealthBar")
+				if hb:
+					healthbar = hb
+				else:
+					# deep search for a node called HealthBar anywhere under root
+					var found = root.find_node("HealthBar", true, false)
+					if found:
+						healthbar = found
+	# death popup
+	if deathpopup == null:
+		var root2 = get_tree().get_current_scene()
+		if root2:
+			var dp = _find_node_recursive(root2, "DeathPopup")
+			if dp:
+				deathpopup = dp
+	# Configure healthbar max if applicable and ensure deathpopup hidden
+	if healthbar and (healthbar is Range):
+		healthbar.max_value = max_health
+		healthbar.min_value = 0
+	if deathpopup:
+		deathpopup.visible = false
+	# ----------------- END: HUD auto-find fallback (ADDED) -----------------
+
+	_update_health_ui()
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	# ensure pitch starts from current camera pivot angle
 	pitch = $CameraPivot.rotation_degrees.x
+
+# helper: recursive search for a node by name
+func _find_node_recursive(node: Node, target_name: String) -> Node:
+	for child in node.get_children():
+		if String(child.name) == target_name:
+			return child
+		var found := _find_node_recursive(child, target_name)
+		if found:
+			return found
+	return null
+
+
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -88,6 +211,12 @@ func _input(event):
 		# only set CameraPivot here if no tilt active, otherwise tilt code will control it
 		if camera_tilt_timer <= 0.0:
 			$CameraPivot.rotation_degrees.x = pitch
+
+func receive_force(impulse: Vector3) -> void:
+	# simple: add impulse to velocity (you already have a velocity var)
+	velocity += impulse
+	# optional: start a short stun or reduce control while being pushed
+
 
 # ───────────── MOVEMENT ─────────────
 func get_input_direction() -> Vector3:
@@ -140,6 +269,7 @@ func _physics_process(delta):
 			if input_dir.length() > 0.1:
 				start_slide()
 		
+
 
 	# crouch handling: slowdown only applies when on ground and NOT sliding
 	if is_on_floor():
@@ -349,6 +479,7 @@ func detect_wall_normal() -> Vector3:
 			return result.get("normal", Vector3.ZERO)
 
 	return Vector3.ZERO
+
 
 
 

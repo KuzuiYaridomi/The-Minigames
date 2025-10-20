@@ -1,5 +1,163 @@
-[gd_scene format=3 uid="uid://d8e6n3osk05n"]
+[gd_scene load_steps=13 format=3 uid="uid://d8e6n3osk05n"]
+
+[ext_resource type="Script" uid="uid://cvg3f16doujax" path="res://scripts/ui/MainMenu.gd" id="1_iwbf0"]
+[ext_resource type="Texture2D" uid="uid://dgwbtggkc8afb" path="res://scenes/ui/mainmenu.jpg" id="2_2ysvc"]
+[ext_resource type="Texture2D" uid="uid://ldaba0omdmek" path="res://assets/textures/effects/newgame.png" id="3_bhu4a"]
+[ext_resource type="FontFile" uid="uid://et720anwxm12" path="res://scenes/items/Lemon-Regular.ttf" id="3_e2per"]
+[ext_resource type="FontFile" uid="uid://bptiiaqlprvkp" path="res://assets/fonts/gunplay 3d.otf" id="3_xpiny"]
+[ext_resource type="Texture2D" uid="uid://bxsqas28x66ax" path="res://assets/textures/effects/cancel.png" id="4_e2per"]
+
+[sub_resource type="FontVariation" id="FontVariation_7mi0g"]
+base_font = ExtResource("3_e2per")
+
+[sub_resource type="Theme" id="Theme_bhu4a"]
+default_font = ExtResource("3_xpiny")
+
+[sub_resource type="FontVariation" id="FontVariation_e2per"]
+base_font = ExtResource("3_xpiny")
+
+[sub_resource type="LabelSettings" id="LabelSettings_7mi0g"]
+font = SubResource("FontVariation_e2per")
+font_size = 200
+font_color = Color(0.035756014, 0.03568229, 0, 1)
+outline_color = Color(0.45490196, 1, 1, 1)
+
+[sub_resource type="FontVariation" id="FontVariation_nqjyj"]
+base_font = ExtResource("3_xpiny")
+
+[sub_resource type="FontVariation" id="FontVariation_7vr37"]
+base_font = ExtResource("3_xpiny")
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_iwbf0")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 1153.0
+offset_bottom = 649.0
+texture = ExtResource("2_2ysvc")
+expand_mode = 2
+
+[node name="MenuContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.497
+anchor_top = 1.0
+anchor_right = 0.497
+anchor_bottom = 1.0
+offset_left = -281.544
+offset_top = -356.0
+offset_right = 281.456
+offset_bottom = 377.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LevelSelectPopup" type="Window" parent="."]
+transparent_bg = true
+oversampling_override = 1.0
+mode = 3
+initial_position = 1
+size = Vector2i(1162, 641)
+visible = false
+borderless = true
+transparent = true
+minimize_disabled = true
+maximize_disabled = true
+
+[node name="LevelList" type="ItemList" parent="LevelSelectPopup"]
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -416.0
+offset_top = 82.0
+offset_right = 261.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hovered_selected_color = Color(0, 0.6596281, 0.5313371, 1)
+theme_override_colors/font_selected_color = Color(0.9897601, 1, 0.99622685, 1)
+theme_override_fonts/font = SubResource("FontVariation_7mi0g")
+max_columns = 2
+icon_mode = 0
+
+[node name="ButtonsContainer" type="VBoxContainer" parent="LevelSelectPopup"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = -112.0
+offset_right = 211.0
+offset_bottom = 34.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="PlayLevelButton" type="TextureButton" parent="LevelSelectPopup/ButtonsContainer"]
+layout_mode = 2
+texture_normal = ExtResource("3_bhu4a")
+
+[node name="CancelButton" type="TextureButton" parent="LevelSelectPopup/ButtonsContainer"]
+layout_mode = 2
+texture_normal = ExtResource("4_e2per")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -572.0
+offset_top = 67.0
+offset_right = 578.0
+offset_bottom = 308.0
+grow_horizontal = 2
+theme = SubResource("Theme_bhu4a")
+theme_override_colors/font_color = Color(0.6039216, 1, 1, 1)
+theme_override_font_sizes/font_size = 75
+text = "LAX RUSH"
+label_settings = SubResource("LabelSettings_7mi0g")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="PlayButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 306.0
+offset_top = 330.0
+offset_right = 863.0
+offset_bottom = 429.0
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0.7166063, 0.7327099, 1)
+theme_override_colors/font_pressed_color = Color(0.6156863, 0.63529414, 0.6117647, 1)
+theme_override_fonts/font = SubResource("FontVariation_nqjyj")
+theme_override_font_sizes/font_size = 50
+text = "PLAY GAME"
+
+[node name="QuitButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 301.0
+offset_top = 441.0
+offset_right = 864.0
+offset_bottom = 540.0
+theme_override_colors/font_color = Color(0, 0.7176471, 0.73333335, 1)
+theme_override_colors/font_pressed_color = Color(0.61535406, 0.6367122, 0.61259085, 1)
+theme_override_fonts/font = SubResource("FontVariation_7vr37")
+theme_override_font_sizes/font_size = 50
+text = "QUIT GAME
+"
+
+[connection signal="pressed" from="LevelSelectPopup/ButtonsContainer/PlayLevelButton" to="." method="_on_PlayLevelButton_pressed"]
+[connection signal="pressed" from="LevelSelectPopup/ButtonsContainer/CancelButton" to="." method="_on_CancelButton_pressed"]
+[connection signal="pressed" from="PlayButton" to="." method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_QuitButton_pressed"]

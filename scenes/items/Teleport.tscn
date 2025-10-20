@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bumqkp6nst8x2"]
+
+[ext_resource type="Script" uid="uid://elygeap285kl" path="res://scripts/Teleport.gd" id="1_shjx4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_shjx4"]
+size = Vector3(1.4086914, 1.3824463, 0.5620117)
+
+[node name="Teleport" type="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.099946916, 0, 0)
+script = ExtResource("1_shjx4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7641502, 0.7394875, 0.24669439)
+shape = SubResource("BoxShape3D_shjx4")
+
+[node name="ExitMarker" type="Marker3D" parent="."]
+transform = Transform3D(1.2242126, 0, 0, 0, 1, 0, 0, 0, 1, 1.5315831, 1.4470614, 0.5107181)

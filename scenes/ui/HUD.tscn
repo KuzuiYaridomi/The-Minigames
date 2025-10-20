@@ -1,13 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://b7cci7v7rss6m"]
+[gd_scene load_steps=4 format=3 uid="uid://b7cci7v7rss6m"]
 
 [ext_resource type="Texture2D" uid="uid://jgjilflpku0i" path="res://assets/textures/ui/crosshair.png" id="1_kw0id"]
+[ext_resource type="Script" uid="uid://b6nnmeu0d244j" path="res://scenes/ui/DeathPopup.gd" id="2_atyv1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kw0id"]
-bg_color = Color(0.8708997, 0.20819047, 0.40579155, 1)
 
 [node name="HUD" type="CanvasLayer"]
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="CrossHair" type="TextureRect" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -21,8 +21,9 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_kw0id")
 stretch_mode = 3
+metadata/_edit_use_anchors_ = true
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
+[node name="HealthBar" type="ProgressBar" parent="."]
 custom_minimum_size = Vector2(250, 30)
 anchors_preset = 1
 anchor_left = 1.0
@@ -34,3 +35,33 @@ offset_bottom = 48.0
 grow_horizontal = 0
 theme_override_styles/background = SubResource("StyleBoxFlat_kw0id")
 show_percentage = false
+
+[node name="DeathPopup" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_atyv1")
+
+[node name="Overlay" type="ColorRect" parent="DeathPopup"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.043854147, 0.044748493, 0.04513152, 1)
+
+[node name="CenterPanel" type="Panel" parent="DeathPopup"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RetryButton" type="Button" parent="DeathPopup/CenterPanel"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="DeathPopup/CenterPanel"]
